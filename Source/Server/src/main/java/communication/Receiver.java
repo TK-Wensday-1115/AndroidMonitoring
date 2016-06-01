@@ -98,18 +98,26 @@ public class Receiver implements SensorReadingCallback {
                 break;
             case "MEM" :
                 System.out.println("MEM");
+                try {
+                    memoryUsageDiagram.newData(reading.getValue(), Float.parseFloat(reading.getColor()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
             case "GYR" :
                 System.out.println("GYR");
                 break;
             case "TEMP" :
                 System.out.println("TEMP");
+                temperatureDiagram.setTemperature(Double.parseDouble(reading.getValue()));
                 break;
             case "BAT" :
                 System.out.println("BAT");
+                batteryDiagram.setTemperature(Double.parseDouble(reading.getValue()));
                 break;
             case "WIFI" :
                 System.out.println("WIFI");
+                wifiDiagram.setChartValue("WIFI", Double.parseDouble(reading.getValue()));
                 break;
             case "GPS" :
                 System.out.println("GPS");
