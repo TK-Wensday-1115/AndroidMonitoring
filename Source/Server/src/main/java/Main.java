@@ -1,12 +1,11 @@
 import communication.Receiver;
+import console.Console;
 import pl.edu.agh.piechart.PieChartPanel;
 import pl.edu.agh.student.smialek.tk.communications.server.CommunicationsServer;
 import pl.edu.agh.toik.historychart.HistoryChart;
 import pl.edu.agh.toik.historychart.HistoryChartFactory;
 import pl.edu.agh.toik.historychart.TimeUnit;
-import sample.BubbleBandwidth;
 import sample.TermometerPanel;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -35,7 +34,7 @@ public class Main {
 
         final JFrame processorUsageFrame = new JFrame();
         processorUsageFrame.getContentPane().setLayout(new BorderLayout(5, 5));
-        HistoryChart processorUsageDiagram = HistoryChartFactory.createNew("Processor's usage per process", "Time", TimeUnit.Second, "Weight", "mb");
+        HistoryChart processorUsageDiagram = HistoryChartFactory.createNew("Processor's usage per process", "Time", TimeUnit.Second, "Weight", "%");
         processorUsageFrame.getContentPane().add(processorUsageDiagram, BorderLayout.WEST);
         processorUsageFrame.setSize(715, 490);
         processorUsageFrame.setVisible(true);
@@ -57,53 +56,22 @@ public class Main {
         wifiFrame.setVisible(true);
         wifiFrame.setResizable(false);
 
-        final BubbleBandwidth memoryUsageDiagram = new BubbleBandwidth();
+        final Console console = new Console();
 
-        final Thread memoryUsageThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                memoryUsageDiagram.startApplication();
+        final Thread gpsThread = new Thread(() -> {
+            try {
+                console.startApplication();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
 
-        memoryUsageThread.start();
-
-//        final Console gpsDiagram = new Console();
-//
-//        final Thread gpsThread = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    gpsDiagram.start(new Stage());
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
-//
-//        gpsThread.start();
-//
-//        final Console eventDiagram = new Console();
-//
-//        final Thread eventThread = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    eventDiagram.start(new Stage());
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
-//
-//        eventThread.start();
+        gpsThread.start();
 
         Receiver receiver = new Receiver();
         receiver.setBatteryDiagram(batteryDiagram);
-//        receiver.setEventDiagram(eventDiagram);
-//        receiver.setGpsDiagram(gpsDiagram);
+        receiver.setConsole(console);
         receiver.setGyroscopeUsageDiagram(gyroscopeUsageDiagram);
-        receiver.setMemoryUsageDiagram(memoryUsageDiagram);
         receiver.setProcessorUsageDiagram(processorUsageDiagram);
         receiver.setTemperatureDiagram(temperatureDiagram);
         receiver.setWifiDiagram(wifiDiagram);
