@@ -5,5 +5,5 @@ package pl.edu.agh.toik.phonemonitor.core.common.output;
  * 18.05.2016
  */
 public interface IOutput {
-    void write(String message);
+    void write(String tag, String message);
 }

@@ -4,9 +4,14 @@ import console.Console;
 import pl.edu.agh.piechart.PieChartPanel;
 import pl.edu.agh.student.smialek.tk.communications.server.SensorReading;
 import pl.edu.agh.student.smialek.tk.communications.server.SensorReadingCallback;
+import pl.edu.agh.toik.historychart.DataLineDoesNotExistException;
 import pl.edu.agh.toik.historychart.HistoryChart;
 import sample.BubbleBandwidth;
 import sample.TermometerPanel;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Dom-Pc on 2016-05-29.
@@ -20,6 +25,8 @@ public class Receiver implements SensorReadingCallback {
     private BubbleBandwidth memoryUsageDiagram;
     private Console gpsDiagram;
     private Console eventDiagram;
+
+    Map<String, Integer> cpuUsages = new HashMap<>();
 
     public TermometerPanel getTemperatureDiagram() {
         return temperatureDiagram;
@@ -95,11 +102,24 @@ public class Receiver implements SensorReadingCallback {
         switch (sensorName) {
             case "CPU" :
                 System.out.println("CPU");
+
+                if (!cpuUsages.containsKey(reading.getColor())) {
+                    cpuUsages.put(reading.getColor(), processorUsageDiagram.registerNewLine(reading.getColor()));
+                }
+                int lineId = cpuUsages.get(reading.getColor());
+                try {
+                    processorUsageDiagram.addNewEntry(lineId,
+                            Double.parseDouble(reading.getValue()),
+                            Date.from(reading.getTimestamp()));
+                } catch (DataLineDoesNotExistException e) {
+                    e.printStackTrace();
+                }
+
                 break;
             case "MEM" :
                 System.out.println("MEM");
                 try {
-                    memoryUsageDiagram.newData(reading.getValue(), Float.parseFloat(reading.getColor()));
+                    memoryUsageDiagram.newData(reading.getColor(), Float.parseFloat(reading.getValue()));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -117,7 +137,10 @@ public class Receiver implements SensorReadingCallback {
                 break;
             case "WIFI" :
                 System.out.println("WIFI");
-                wifiDiagram.setChartValue("WIFI", Double.parseDouble(reading.getValue()));
+
+                double value = Double.parseDouble(reading.getValue());
+                wifiDiagram.setChartValue("WIFI", value);
+                wifiDiagram.setChartValue("", 10d - value);
                 break;
             case "GPS" :
                 System.out.println("GPS");

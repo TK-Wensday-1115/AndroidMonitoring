@@ -3,5 +3,9 @@
     <string-array name="parameters_array">
         <item>CPU Usage</item>
         <item>Memory Usage</item>
+        <item>WiFi Signal Strength</item>
+        <item>Battery Level</item>
+        <item>GPS Location</item>
+        <item>Ambient Temperature</item>
     </string-array>
 </resources>

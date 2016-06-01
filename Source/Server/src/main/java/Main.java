@@ -1,6 +1,4 @@
 import communication.Receiver;
-import console.Console;
-import javafx.stage.Stage;
 import pl.edu.agh.piechart.PieChartPanel;
 import pl.edu.agh.student.smialek.tk.communications.server.CommunicationsServer;
 import pl.edu.agh.toik.historychart.HistoryChart;
@@ -70,40 +68,40 @@ public class Main {
 
         memoryUsageThread.start();
 
-        final Console gpsDiagram = new Console();
-
-        final Thread gpsThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    gpsDiagram.start(new Stage());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        gpsThread.start();
-
-        final Console eventDiagram = new Console();
-
-        final Thread eventThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    eventDiagram.start(new Stage());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        eventThread.start();
+//        final Console gpsDiagram = new Console();
+//
+//        final Thread gpsThread = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    gpsDiagram.start(new Stage());
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+//
+//        gpsThread.start();
+//
+//        final Console eventDiagram = new Console();
+//
+//        final Thread eventThread = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    eventDiagram.start(new Stage());
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+//
+//        eventThread.start();
 
         Receiver receiver = new Receiver();
         receiver.setBatteryDiagram(batteryDiagram);
-        receiver.setEventDiagram(eventDiagram);
-        receiver.setGpsDiagram(gpsDiagram);
+//        receiver.setEventDiagram(eventDiagram);
+//        receiver.setGpsDiagram(gpsDiagram);
         receiver.setGyroscopeUsageDiagram(gyroscopeUsageDiagram);
         receiver.setMemoryUsageDiagram(memoryUsageDiagram);
         receiver.setProcessorUsageDiagram(processorUsageDiagram);
@@ -113,5 +111,4 @@ public class Main {
         CommunicationsServer.start(8080);
 
     }
-
 }

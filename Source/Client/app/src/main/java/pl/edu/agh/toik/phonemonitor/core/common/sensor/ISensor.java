@@ -6,9 +6,9 @@ package pl.edu.agh.toik.phonemonitor.core.common.sensor;
  */
 public interface ISensor {
 
-    String getDescription();
+    String getSensorName();
 
-    String getCurrentReading();
+    Iterable<SensorReading> getCurrentReadings();
 
     long getDefaultInterval();
 }

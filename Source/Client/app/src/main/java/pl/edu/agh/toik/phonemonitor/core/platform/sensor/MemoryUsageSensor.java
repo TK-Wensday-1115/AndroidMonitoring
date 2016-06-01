@@ -4,9 +4,12 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.os.Debug;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import pl.edu.agh.toik.phonemonitor.core.common.sensor.ISensor;
+import pl.edu.agh.toik.phonemonitor.core.common.sensor.SensorReading;
 import pl.edu.agh.toik.phonemonitor.gui.Config;
 
 /**
@@ -16,12 +19,12 @@ import pl.edu.agh.toik.phonemonitor.gui.Config;
 public class MemoryUsageSensor implements ISensor {
 
     @Override
-    public String getDescription() {
+    public String getSensorName() {
         return "MEM";
     }
 
     @Override
-    public String getCurrentReading() {
+    public Iterable<SensorReading> getCurrentReadings() {
         ActivityManager.MemoryInfo mf = new ActivityManager.MemoryInfo();
         ActivityManager am = (ActivityManager) Config.context.getSystemService(Context.ACTIVITY_SERVICE);
         am.getMemoryInfo(mf);
@@ -29,7 +32,12 @@ public class MemoryUsageSensor implements ISensor {
         long availableMB = mf.availMem / 1048576L;
         long totalMB = mf.totalMem / 1048576L;
 
-        return String.format("%d %d", availableMB, totalMB);
+        List<SensorReading> readings = new ArrayList<>();
+        readings.add(new SensorReading("1", Long.toString(totalMB - availableMB)));
+        readings.add(new SensorReading("2", Long.toString(totalMB)));
+        readings.add(new SensorReading("10", "1000"));
+
+        return readings;
     }
 
     @Override

@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import pl.edu.agh.toik.phonemonitor.core.common.output.IOutput;
 import pl.edu.agh.toik.phonemonitor.core.common.sensor.ISensor;
+import pl.edu.agh.toik.phonemonitor.core.common.sensor.SensorReading;
 
 /**
  * Created by Imiolak.
@@ -14,11 +15,11 @@ import pl.edu.agh.toik.phonemonitor.core.common.sensor.ISensor;
 public class SensorRunner {
 
     private final ISensor sensor;
-    private final IOutput output;
+    private final IOutput[] outputs;
 
-    public SensorRunner(ISensor sensor, IOutput output) {
+    public SensorRunner(ISensor sensor, IOutput[] outputs) {
         this.sensor = sensor;
-        this.output = output;
+        this.outputs = outputs;
     }
 
     public void run() {
@@ -26,7 +27,18 @@ public class SensorRunner {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                output.write(sensor.getCurrentReading());
+                Iterable<SensorReading> readings = sensor.getCurrentReadings();
+
+                for (SensorReading reading: readings) {
+                    String tag = reading.getTag();
+                    String message = reading.getReading();
+
+                    if (message == null || message.isEmpty())
+                        continue;
+
+                    for (IOutput output: outputs)
+                        output.write(tag, message);
+                }
             }
         }, TimeUnit.SECONDS.toMillis(0), sensor.getDefaultInterval());
     }

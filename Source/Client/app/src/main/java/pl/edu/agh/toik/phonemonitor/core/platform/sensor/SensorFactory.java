@@ -16,6 +16,14 @@ public class SensorFactory {
                 return new CpuUsageSensor();
             case "Memory Usage":
                 return new MemoryUsageSensor();
+            case "WiFi Signal Strength":
+                return new WifiSignalStrengthSensor();
+            case "Battery Level":
+                return new BatteryLevelSensor();
+            case "GPS Location":
+                return new GPSLocationSensor();
+            case "Ambient Temperature":
+                return new AmbientTemperatureSensor();
             default:
                 return null;
         }

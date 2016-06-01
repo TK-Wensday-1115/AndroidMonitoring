@@ -1,11 +1,17 @@
 package pl.edu.agh.toik.phonemonitor.core.platform.sensor;
 
+import android.hardware.Sensor;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import pl.edu.agh.toik.phonemonitor.core.common.sensor.ISensor;
+import pl.edu.agh.toik.phonemonitor.core.common.sensor.SensorReading;
 
 /**
  * Created by Imiolak.
@@ -14,12 +20,12 @@ import pl.edu.agh.toik.phonemonitor.core.common.sensor.ISensor;
 public class CpuUsageSensor implements ISensor {
 
     @Override
-    public String getDescription() {
+    public String getSensorName() {
         return "CPU";
     }
 
     @Override
-    public String getCurrentReading() {
+    public Iterable<SensorReading> getCurrentReadings() {
         Process p = null;
         BufferedReader reader = null;
         String result = null;
@@ -41,8 +47,12 @@ public class CpuUsageSensor implements ISensor {
             }
         }
 
-        String[] all = result.split("[A-Za-z\\s%,]+");
-        return all[1];
+        String usage = result.split("[A-Za-z\\s%,]+")[1];
+
+        List<SensorReading> readings = new ArrayList<>();
+        readings.add(new SensorReading("TOTAL", usage));
+
+        return readings;
     }
 
     @Override

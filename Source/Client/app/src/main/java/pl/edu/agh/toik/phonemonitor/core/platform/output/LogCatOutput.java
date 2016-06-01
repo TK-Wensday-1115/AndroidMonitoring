@@ -10,14 +10,15 @@ import pl.edu.agh.toik.phonemonitor.core.common.output.IOutput;
  */
 public class LogCatOutput implements IOutput {
 
-    private final String tag;
+    private final String sensorName;
 
-    public LogCatOutput(String tag) {
-        this.tag = tag;
+    public LogCatOutput(String sensorName) {
+
+        this.sensorName = sensorName;
     }
 
     @Override
-    public void write(String message) {
-        Log.d(tag, message);
+    public void write(String tag, String message) {
+        Log.d(sensorName, tag + " " + message);
     }
 }
