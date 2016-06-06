@@ -35,7 +35,6 @@ public class MemoryUsageSensor implements ISensor {
         List<SensorReading> readings = new ArrayList<>();
         readings.add(new SensorReading("1", Long.toString(totalMB - availableMB)));
         readings.add(new SensorReading("2", Long.toString(totalMB)));
-        readings.add(new SensorReading("10", "1000"));
 
         return readings;
     }

@@ -18,58 +18,48 @@ import pl.edu.agh.toik.phonemonitor.gui.Config;
  * Created by Imiolak.
  * 31.05.2016
  */
-public class GyroscopeSensor implements ISensor, SensorEventListener {
-
-    private static final float NS2S = 1.0f / 1000000000.0f;
-    private final float[] deltaRotationVector = new float[4];
+public class AccelerometerSensor implements ISensor, SensorEventListener {
 
     private final SensorManager sensorManager;
     private final Sensor sensor;
 
-    private String lastReading;
+    private String[] lastReadings;
     private float timestamp;
 
-    public GyroscopeSensor() {
+    public AccelerometerSensor() {
         sensorManager = (SensorManager) Config.context.getSystemService(Context.SENSOR_SERVICE);
-        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
 
-        lastReading = "";
+        lastReadings = new String[3];
     }
 
 
     @Override
     public String getSensorName() {
-        return "GYR";
+        return "ACC";
     }
 
     @Override
     public Iterable<SensorReading> getCurrentReadings() {
         List<SensorReading> readings = new ArrayList<>();
-        readings.add(new SensorReading("", lastReading));
+        readings.add(new SensorReading("x", lastReadings[0]));
+        readings.add(new SensorReading("y", lastReadings[1]));
+        readings.add(new SensorReading("z", lastReadings[2]));
 
         return readings;
     }
 
     @Override
     public long getDefaultInterval() {
-        return TimeUnit.SECONDS.toMillis(5);
+        return TimeUnit.SECONDS.toMillis(1);
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if (timestamp != 0) {
-            final float dT = (event.timestamp - timestamp) * NS2S;
-
-            float axisX = event.values[0];
-            float axisY = event.values[1];
-            float axisZ = event.values[2];
-
-            double omegaMagnitude = Math.sqrt(axisX*axisX + axisY*axisY + axisZ*axisZ);
-        }
-
-        timestamp = event.timestamp;
-        float[] deltaRotationMatrix = new float[9];
-        SensorManager.getRotationMatrixFromVector(deltaRotationMatrix, deltaRotationVector);
+        lastReadings[0] = Float.toString(event.values[0]);
+        lastReadings[1] = Float.toString(event.values[1]);
+        lastReadings[2] = Float.toString(event.values[2]);
     }
 
     @Override

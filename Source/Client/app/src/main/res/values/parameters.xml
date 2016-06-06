@@ -7,5 +7,6 @@
         <item>Battery Level</item>
         <item>GPS Location</item>
         <item>Ambient Temperature</item>
+        <item>Accelerometer</item>
     </string-array>
 </resources>

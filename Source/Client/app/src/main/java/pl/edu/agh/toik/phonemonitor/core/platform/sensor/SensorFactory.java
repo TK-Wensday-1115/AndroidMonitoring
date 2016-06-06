@@ -24,6 +24,8 @@ public class SensorFactory {
                 return new GPSLocationSensor();
             case "Ambient Temperature":
                 return new AmbientTemperatureSensor();
+            case "Accelerometer":
+                return new AccelerometerSensor();
             default:
                 return null;
         }

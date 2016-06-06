@@ -31,7 +31,7 @@ public class CpuUsageSensor implements ISensor {
         String result = null;
 
         try {
-            p = Runtime.getRuntime().exec("top -n 1");
+            p = Runtime.getRuntime().exec("top");
             reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
             while (result == null || result.contentEquals("")) {
                 result = reader.readLine();
@@ -47,16 +47,19 @@ public class CpuUsageSensor implements ISensor {
             }
         }
 
-        String usage = result.split("[A-Za-z\\s%,]+")[1];
+        String[] usages = result.split("[A-Za-z\\s%,]+");
 
         List<SensorReading> readings = new ArrayList<>();
-        readings.add(new SensorReading("TOTAL", usage));
+        readings.add(new SensorReading("User", usages[1]));
+        readings.add(new SensorReading("System", usages[2]));
+        readings.add(new SensorReading("IOW", usages[3]));
+        readings.add(new SensorReading("IRQ", usages[4]));
 
         return readings;
     }
 
     @Override
     public long getDefaultInterval() {
-        return TimeUnit.SECONDS.toMillis(1);
+        return TimeUnit.SECONDS.toMillis(3);
     }
 }

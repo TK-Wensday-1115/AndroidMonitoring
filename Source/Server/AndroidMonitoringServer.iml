@@ -18,5 +18,12 @@
     <orderEntry type="library" name="Charts4And12" level="project" />
     <orderEntry type="library" name="chart5" level="project" />
     <orderEntry type="library" name="TextLogger" level="project" />
+    <orderEntry type="library" name="HistoryChart-1.0.0" level="project" />
+    <orderEntry type="library" name="jcommon-1.0.23" level="project" />
+    <orderEntry type="library" name="jfreechart-1.0.19" level="project" />
+    <orderEntry type="library" name="TextLogger" level="project" />
+    <orderEntry type="library" name="chart5" level="project" />
+    <orderEntry type="library" name="Charts4And12" level="project" />
+    <orderEntry type="library" name="communications-v0.1-beta2-all" level="project" />
   </component>
 </module>

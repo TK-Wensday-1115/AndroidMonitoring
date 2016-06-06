@@ -24,10 +24,11 @@ import pl.edu.agh.toik.phonemonitor.gui.Config;
 public class RawRequestNetworkOutput implements IOutput, Response.Listener<JSONObject>, Response.ErrorListener {
 
     private final String url;
+    RequestQueue requestQueue;
 
     public RawRequestNetworkOutput(String host, String sensorName) {
-
         this.url = "http://" + host + ":8080/sensor/" + sensorName + "/";
+        this.requestQueue = Volley.newRequestQueue(Config.context);
     }
 
     @Override
@@ -38,22 +39,20 @@ public class RawRequestNetworkOutput implements IOutput, Response.Listener<JSONO
         requestMap.put("timestamp", Long.toString(System.currentTimeMillis() / 1000L));
 
         JSONObject jsonObject = new JSONObject(requestMap);
-        RequestQueue queue = Volley.newRequestQueue(Config.context);
-
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,
                 url, jsonObject,
                 this, this);
 
-        queue.add(request);
+        requestQueue.add(request);
     }
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        Log.d("REQUEST", "ERROR " + error.getMessage() + " " + url);
+        //Log.d("REQUEST", "ERROR " + error.getMessage() + " " + url);
     }
 
     @Override
     public void onResponse(JSONObject response) {
-        Log.d("REQUEST", "OK" + url);
+        //Log.d("REQUEST", "OK" + url);
     }
 }

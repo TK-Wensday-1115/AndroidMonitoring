@@ -34,19 +34,19 @@ public class Main {
 
         final JFrame processorUsageFrame = new JFrame();
         processorUsageFrame.getContentPane().setLayout(new BorderLayout(5, 5));
-        HistoryChart processorUsageDiagram = HistoryChartFactory.createNew("Processor's usage per process", "Time", TimeUnit.Second, "Weight", "%");
+        HistoryChart processorUsageDiagram = HistoryChartFactory.createNew("Processor's usage per process", "Time", TimeUnit.Second, "Usage", "%");
         processorUsageFrame.getContentPane().add(processorUsageDiagram, BorderLayout.WEST);
         processorUsageFrame.setSize(715, 490);
         processorUsageFrame.setVisible(true);
         processorUsageFrame.setResizable(false);
 
-        final JFrame gyroscopeUsageFrame = new JFrame();
-        gyroscopeUsageFrame.getContentPane().setLayout(new BorderLayout(5, 5));
-        HistoryChart gyroscopeUsageDiagram = HistoryChartFactory.createNew("Gyroscope", "Time", TimeUnit.Second, "Angle", "rad");
-        gyroscopeUsageFrame.getContentPane().add(gyroscopeUsageDiagram, BorderLayout.WEST);
-        gyroscopeUsageFrame.setSize(715, 490);
-        gyroscopeUsageFrame.setVisible(true);
-        gyroscopeUsageFrame.setResizable(false);
+        final JFrame accelerometerUsageFrame = new JFrame();
+        accelerometerUsageFrame.getContentPane().setLayout(new BorderLayout(5, 5));
+        HistoryChart accelerometerUsageDiagram = HistoryChartFactory.createNew("Accelerometer", "Time", TimeUnit.Second, "Force", "G");
+        accelerometerUsageFrame.getContentPane().add(accelerometerUsageDiagram, BorderLayout.WEST);
+        accelerometerUsageFrame.setSize(715, 490);
+        accelerometerUsageFrame.setVisible(true);
+        accelerometerUsageFrame.setResizable(false);
 
         final JFrame wifiFrame = new JFrame();
         wifiFrame.getContentPane().setLayout(new BorderLayout(5, 5));
@@ -71,12 +71,12 @@ public class Main {
         Receiver receiver = new Receiver();
         receiver.setBatteryDiagram(batteryDiagram);
         receiver.setConsole(console);
-        receiver.setGyroscopeUsageDiagram(gyroscopeUsageDiagram);
+        receiver.setAccelerometerUsageDiagram(accelerometerUsageDiagram);
         receiver.setProcessorUsageDiagram(processorUsageDiagram);
         receiver.setTemperatureDiagram(temperatureDiagram);
         receiver.setWifiDiagram(wifiDiagram);
+
         CommunicationsServer.registerCallback(receiver);
         CommunicationsServer.start(8080);
-
     }
 }
