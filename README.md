@@ -37,9 +37,9 @@ CPU {nazwa_procesu} {%_zużycie_procesora}
 
 MEM {nazwa_procesu} {MB_zużycie_pamięci}
 
-- żyroskop
+- akcelerometr
 
-GYR {} {oś_x oś_y oś_z}
+ACC {} {oś_x oś_y oś_z}
 
 - temperatura otoczenia
 
@@ -57,12 +57,8 @@ WIFI {} {poziom_sygnału}
 
 GPS {} {x y z}
 
-- nowe zdarzenia
-
-EVE {id_procesu} {wiadomość}
-
 ## 2.2 Klient
-![Diagram_klient](http://i.imgur.com/bbGET9O.png)
+![Diagram_klient](http://i.imgur.com/I99dCBU.png)
 
 ## 2.3 Serwer
-![Diagram_serwer](http://i.imgur.com/VVOkEsF.png)
+![Diagram_serwer](http://i.imgur.com/f4vZeiH.png)
